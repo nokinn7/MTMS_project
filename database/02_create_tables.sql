@@ -42,7 +42,11 @@ CREATE TABLE Train (
     trainId INT PRIMARY KEY AUTO_INCREMENT,
     trainName VARCHAR(100) NOT NULL,
     capacity INT NOT NULL,
-    status VARCHAR(30) NOT NULL
+    status VARCHAR(30) NOT NULL,
+    lineId INT NOT NULL,
+
+    FOREIGN KEY (lineId)
+    REFERENCES MetroLine(lineId)
 ) AUTO_INCREMENT = 5001;
 
 CREATE TABLE Route (
@@ -54,19 +58,35 @@ CREATE TABLE Schedule (
     scheduleId INT PRIMARY KEY AUTO_INCREMENT,
     arrivalTime TIME NOT NULL,
     departureTime TIME NOT NULL,
-    platformNo INT NOT NULL
+    platformNo INT NOT NULL,
+    trainId INT NOT NULL,
+    stationId INT NOT NULL,
+
+    FOREIGN KEY (trainID)
+    REFERENCES Train(trainId),
+
+    FOREIGN KEY (stationId)
+    REFERENCES Station(stationId)
 ) AUTO_INCREMENT = 7001;
 
 CREATE TABLE Booking (
     bookingId INT PRIMARY KEY AUTO_INCREMENT,
     bookingStatus VARCHAR(30) NOT NULL,
-    journeyDate DATE NOT NULL
+    journeyDate DATE NOT NULL,
+    passengerId INT NOT NULL,
+
+    FOREIGN KEY (passengerId)
+    REFERENCES Passenger(passengerId)
 ) AUTO_INCREMENT = 8001;
 
 CREATE TABLE Ticket (
     ticketId INT PRIMARY KEY AUTO_INCREMENT,
     fare DECIMAL(10,2) NOT NULL,
-    qrCode VARCHAR(255) NOT NULL UNIQUE
+    qrCode VARCHAR(255) NOT NULL UNIQUE,
+    bookingId INT NOT NULL UNIQUE,
+
+    FOREIGN KEY (bookingId)
+    REFERENCES Booking(bookingId)
 ) AUTO_INCREMENT = 9001;
 
 CREATE TABLE Payment (
@@ -74,7 +94,11 @@ CREATE TABLE Payment (
     amount DECIMAL(10,2) NOT NULL,
     paymentMethod VARCHAR(50) NOT NULL,
     paymentStatus VARCHAR(30) NOT NULL,
-    paymentTime DATETIME NOT NULL
+    paymentTime DATETIME NOT NULL,
+    bookingId INT NOT NULL UNIQUE,
+
+    FOREIGN KEY (bookingId)
+    REFERENCES Booking(bookingId)
 ) AUTO_INCREMENT = 10001;
 
 CREATE TABLE Employee (
@@ -82,18 +106,58 @@ CREATE TABLE Employee (
     empName VARCHAR(100) NOT NULL,
     empEmail VARCHAR(100) NOT NULL UNIQUE,
     empPhoneNumber VARCHAR(15) NOT NULL UNIQUE,
-    address VARCHAR(255)
+    address VARCHAR(255),
+    supervisorId INT,
+
+    FOREIGN KEY (supervisorId)
+    REFERENCES Employee(empId)
 ) AUTO_INCREMENT = 11001;
 
 CREATE TABLE MaintenanceRecord (
     maintenanceId INT PRIMARY KEY AUTO_INCREMENT,
     maintenanceDate DATE NOT NULL,
     description VARCHAR(255),
-    cost DECIMAL(10,2) NOT NULL
+    cost DECIMAL(10,2) NOT NULL,
+    trainId INT NOT NULL,
+    empId INT NOT NULL,
+
+    FOREIGN KEY (trainId)
+    REFERENCES Train(trainId),
+    
+    FOREIGN KEY (empId)
+    REFERENCES Employee(empId)
 ) AUTO_INCREMENT = 12001;
 
 CREATE TABLE JourneyHistory (
     journeyId INT PRIMARY KEY AUTO_INCREMENT,
     journeyDate DATE NOT NULL,
-    journeyDuration TIME NOT NULL
+    journeyDuration TIME NOT NULL,
+    passengerId INT NOT NULL,
+
+    FOREIGN KEY (passengerId)
+    REFERENCES Passenger(passengerId)
 ) AUTO_INCREMENT = 13001;
+
+CREATE TABLE RouteStation(
+    routeId INT,
+    stationId Int,
+    PRIMARY KEY (routeId, stationId),
+
+    FOREIGN KEY (routeId)
+    REFERENCES Route(routeId),
+
+    FOREIGN KEY (stationId)
+    REFERENCES Station(stationId)
+);
+
+CREATE TABLE MetroLineStation(
+    lineId INT,
+    stationId INT,
+    PRIMARY KEY (lineId, stationId),
+
+    FOREIGN KEY(lineId)
+    REFERENCES MetroLine(lineId),
+
+    FOREIGN KEY (stationId)
+    REFERENCES Station(stationId)
+);
