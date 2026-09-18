@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MTMS - Smart Metro Management System</title>
+
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+
+<body>
+
+    <nav class="navbar">
+
+        <div class="logo">
+            🚇 MTMS
+        </div>
+
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/passengers">Passengers</a>
+            <a href="#">Stations</a>
+            <a href="#">Schedules</a>
+            <a href="#">Login</a>
+        </div>
+
+    </nav>
+
+
+    <main>
+
+        <section class="hero">
+
+            <p class="tagline">
+                SMART PUBLIC TRANSPORT
+            </p>
+
+            <h1>
+                Metro Transport<br>
+                Management System
+            </h1>
+
+            <p class="description">
+                Manage journeys, bookings, schedules and metro operations
+                through one integrated system.
+            </p>
+
+            <div class="buttons">
+
+                <a href="#" class="button primary">
+                    Book a Ticket
+                </a>
+
+                <a href="#" class="button secondary">
+                    View Schedule
+                </a>
+
+            </div>
+
+        </section>
+
+
+        <section class="stats">
+
+            <div class="stat-card">
+                <h2>{{ line_count }}</h2>
+                <p>Metro Lines</p>
+            </div>
+
+            <div class="stat-card">
+                <h2>{{ station_count }}</h2>
+                <p>Stations</p>
+            </div>
+
+            <div class="stat-card">
+                <h2>{{ train_count }}</h2>
+                <p>Trains</p>
+            </div>
+
+        </section>
+
+    </main>
+
+</body>
+</html>
